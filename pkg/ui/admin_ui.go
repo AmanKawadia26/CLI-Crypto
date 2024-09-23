@@ -59,7 +59,7 @@ func ManageUsers(conn *pgx.Conn, adminService services.AdminService) {
 		var username string
 		color.New(color.FgYellow).Print("Enter the username to change role: ")
 		fmt.Scan(&username)
-		err := adminService.ChangeUserStatus(conn, username)
+		err := adminService.ChangeUserStatus(username)
 		if err != nil {
 			color.Red("Error changing user status: %v", err)
 		}
@@ -67,7 +67,7 @@ func ManageUsers(conn *pgx.Conn, adminService services.AdminService) {
 		var username string
 		color.New(color.FgYellow).Print("Enter the username to delete: ")
 		fmt.Scan(&username)
-		err := adminService.DeleteUser(conn, username)
+		err := adminService.DeleteUser(username)
 		if err != nil {
 			color.Red("Error deleting user: %v", err)
 		}
@@ -80,7 +80,7 @@ func ManageUsers(conn *pgx.Conn, adminService services.AdminService) {
 // ViewUserProfiles displays a list of user profiles in a tabular format
 func ViewUserProfiles(conn *pgx.Conn, adminService services.AdminService) {
 	fmt.Println()
-	users, err := adminService.ViewUserProfiles(conn)
+	users, err := adminService.ViewUserProfiles()
 	if err != nil {
 		color.New(color.FgRed).Println("Error fetching user profiles:", err)
 		return
@@ -118,7 +118,7 @@ func printUserProfile(index int, user *models.User) {
 }
 
 func ManageUserRequests(conn *pgx.Conn, adminService services.AdminService) {
-	unavailableRequests, err := adminService.ManageUserRequests(conn)
+	unavailableRequests, err := adminService.ManageUserRequests()
 	if err != nil {
 		color.New(color.FgRed).Println("Error fetching unavailable crypto requests:", err)
 		return
@@ -137,38 +137,54 @@ func ManageUserRequests(conn *pgx.Conn, adminService services.AdminService) {
 		printRequestTableRow(i+1, request)
 	}
 
-	var choice int
-	color.New(color.FgYellow).Print("Select a request to manage: ")
-	fmt.Scan(&choice)
+	// Get the crypto symbol from the admin
+	var cryptoSymbol string
+	color.New(color.FgYellow).Print("Enter the crypto symbol to manage: ")
+	fmt.Scan(&cryptoSymbol)
 
-	if choice < 1 || choice > len(unavailableRequests) {
-		color.New(color.FgRed).Println("Invalid selection.")
+	// Filter requests matching the given crypto symbol
+	var matchingRequests []*models.UnavailableCryptoRequest
+	for _, request := range unavailableRequests {
+		if request.CryptoSymbol == cryptoSymbol {
+			matchingRequests = append(matchingRequests, request)
+		}
+	}
+
+	if len(matchingRequests) == 0 {
+		color.New(color.FgRed).Println("No requests found for the given crypto symbol:", cryptoSymbol)
 		return
 	}
 
-	selectedRequest := unavailableRequests[choice-1]
-	color.New(color.FgGreen).Println("Selected request:", selectedRequest)
+	// Display matching requests
+	color.New(color.FgGreen).Printf("Found %d request(s) for the crypto symbol '%s'.\n", len(matchingRequests), cryptoSymbol)
+	for i, req := range matchingRequests {
+		color.New(color.FgCyan).Printf("%d. User: %s, Request: %s, Status: %s, Timestamp: %s\n", i+1, req.UserName, req.RequestMessage, req.Status, req.Timestamp)
+	}
 
+	// Prompt for action
 	var action string
-	color.New(color.FgYellow).Print("Enter 'approve' to approve the request or 'reject' to reject it: ")
+	color.New(color.FgYellow).Print("Enter 'approve' to approve the request(s) or 'reject' to reject them: ")
 	fmt.Scan(&action)
 
+	// Update all matching requests at once
+	var newStatus string
 	if action == "approve" {
-		err := adminService.UpdateRequestStatus(conn, selectedRequest, "Approved")
-		if err != nil {
-			color.New(color.FgRed).Println("Error updating request status:", err)
-		}
+		newStatus = "Approved"
 	} else if action == "reject" {
-		err := adminService.UpdateRequestStatus(conn, selectedRequest, "Rejected")
-		if err != nil {
-			color.New(color.FgRed).Println("Error updating request status:", err)
-		}
+		newStatus = "Rejected"
 	} else {
 		color.New(color.FgRed).Println("Invalid action.")
 		return
 	}
 
-	color.New(color.FgGreen).Println("Request status updated.")
+	// Call the update function with the slice of matching requests
+	err = adminService.UpdateRequestStatus(matchingRequests, newStatus)
+	if err != nil {
+		color.New(color.FgRed).Println("Error updating request status:", err)
+		return
+	}
+
+	color.New(color.FgGreen).Printf("Status of all requests for '%s' updated to '%s'.\n", cryptoSymbol, newStatus)
 }
 
 // printRequestTableHeader prints the table header with borders

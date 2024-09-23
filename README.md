@@ -27,11 +27,8 @@ Add or Delete User: Admin can delete or add an user.
 Delegation Functionality: Admin can escalate any user role.
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> e3216c0608afa454a7f97914200b82406490a3d8
 📸 Snippets
 
 Home Page: 
@@ -53,11 +50,8 @@ Admin Page:
 
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> e3216c0608afa454a7f97914200b82406490a3d8
 ⚙️ Installation
 
 Prerequisites
@@ -84,11 +78,8 @@ Fatih Color Library: This library is used to enhance the user interface with col
 go get -u github.com/fatih/color
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> e3216c0608afa454a7f97914200b82406490a3d8
 
 🚀 Running the Application
 
@@ -96,4 +87,4 @@ Once the dependencies are set up, you can run the application with:
 
 go run main.go
 
-This command will compile and execute the mailication.
+This command will compile and execute the main.go file, starting the CryptoTracker application.

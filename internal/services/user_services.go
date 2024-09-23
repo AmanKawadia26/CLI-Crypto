@@ -17,7 +17,6 @@ func NewUserService(repo repositories.UserRepository) *UserServiceImpl {
 	return &UserServiceImpl{repo: repo}
 }
 
-// Business logic to get the user profile
 func (s *UserServiceImpl) GetUserProfile(username string) (*models.User, error) {
 	return s.repo.GetUserProfile(username)
 }
