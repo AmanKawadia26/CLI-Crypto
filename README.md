@@ -96,4 +96,4 @@ Once the dependencies are set up, you can run the application with:
 
 go run main.go
 
-This command will compile and execute the main.go file, starting the CryptoTracker application.
+This command will compile and execute the mailication.
