@@ -1,0 +1,10 @@
+{
+  "api_key": "7deda392-59ec-47ff-a936-144f16086ed7",
+  "api_endpoint": "https://pro-api.coinmarketcap.com/v1",
+  "refresh_interval": 60,
+  "admin_username": "admin",
+  "admin_password": "admin_password",
+  "data_refresh_interval": 300,
+  "max_cryptos_displayed": 10,
+  "price_alert_check_interval": 60
+}
