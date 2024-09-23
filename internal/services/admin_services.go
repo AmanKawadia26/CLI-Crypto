@@ -3,15 +3,15 @@ package services
 import (
 	"cryptotracker/internal/repositories"
 	"cryptotracker/models"
-	"github.com/jackc/pgx/v4"
 )
 
 type AdminService interface {
-	ChangeUserStatus(conn *pgx.Conn, username string) error
-	DeleteUser(conn *pgx.Conn, username string) error
-	ViewUserProfiles(conn *pgx.Conn) ([]*models.User, error)
-	ManageUserRequests(conn *pgx.Conn) ([]*models.UnavailableCryptoRequest, error)
-	UpdateRequestStatus(conn *pgx.Conn, request *models.UnavailableCryptoRequest, status string) error
+	ChangeUserStatus(username string) error
+	DeleteUser(username string) error
+	ViewUserProfiles() ([]*models.User, error)
+	ManageUserRequests() ([]*models.UnavailableCryptoRequest, error)
+	ManageSpecificCryptoRequests(cryptoSymbol string) ([]*models.UnavailableCryptoRequest, error)
+	UpdateRequestStatus(requests []*models.UnavailableCryptoRequest, status string) error
 }
 
 type AdminServiceImpl struct {
@@ -22,23 +22,31 @@ func NewAdminService(repo repositories.AdminRepository) AdminService {
 	return &AdminServiceImpl{repo: repo}
 }
 
-func (s *AdminServiceImpl) ChangeUserStatus(conn *pgx.Conn, username string) error {
-	return s.repo.ChangeUserStatus(conn, username)
+func (s *AdminServiceImpl) ChangeUserStatus(username string) error {
+	return s.repo.ChangeUserStatus(username)
 }
 
-func (s *AdminServiceImpl) DeleteUser(conn *pgx.Conn, username string) error {
-	return s.repo.DeleteUser(conn, username)
+func (s *AdminServiceImpl) DeleteUser(username string) error {
+	return s.repo.DeleteUser(username)
 }
 
-func (s *AdminServiceImpl) ViewUserProfiles(conn *pgx.Conn) ([]*models.User, error) {
-	return s.repo.ViewUserProfiles(conn)
+func (s *AdminServiceImpl) ViewUserProfiles() ([]*models.User, error) {
+	return s.repo.ViewUserProfiles()
 }
 
-func (s *AdminServiceImpl) ManageUserRequests(conn *pgx.Conn) ([]*models.UnavailableCryptoRequest, error) {
-	return s.repo.ManageUserRequests(conn)
+func (s *AdminServiceImpl) ManageUserRequests() ([]*models.UnavailableCryptoRequest, error) {
+	return s.repo.ManageUserRequests()
 }
 
-func (s *AdminServiceImpl) UpdateRequestStatus(conn *pgx.Conn, request *models.UnavailableCryptoRequest, status string) error {
-	request.Status = status
-	return s.repo.SaveUnavailableCryptoRequest(conn, request)
+func (s *AdminServiceImpl) ManageSpecificCryptoRequests(cryptoSymbol string) ([]*models.UnavailableCryptoRequest, error) {
+	return s.repo.ManageSpecificCryptoRequests(cryptoSymbol)
+}
+
+func (s *AdminServiceImpl) UpdateRequestStatus(requests []*models.UnavailableCryptoRequest, status string) error {
+
+	for _, request := range requests {
+		request.Status = status
+	}
+
+	return s.repo.SaveUnavailableCryptoRequest(requests)
 }

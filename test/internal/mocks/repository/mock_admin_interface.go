@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	pgx "github.com/jackc/pgx/v4"
 )
 
 // MockAdminRepository is a mock of AdminRepository interface.
@@ -36,73 +35,88 @@ func (m *MockAdminRepository) EXPECT() *MockAdminRepositoryMockRecorder {
 }
 
 // ChangeUserStatus mocks base method.
-func (m *MockAdminRepository) ChangeUserStatus(conn *pgx.Conn, username string) error {
+func (m *MockAdminRepository) ChangeUserStatus(username string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ChangeUserStatus", conn, username)
+	ret := m.ctrl.Call(m, "ChangeUserStatus", username)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ChangeUserStatus indicates an expected call of ChangeUserStatus.
-func (mr *MockAdminRepositoryMockRecorder) ChangeUserStatus(conn, username interface{}) *gomock.Call {
+func (mr *MockAdminRepositoryMockRecorder) ChangeUserStatus(username interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeUserStatus", reflect.TypeOf((*MockAdminRepository)(nil).ChangeUserStatus), conn, username)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeUserStatus", reflect.TypeOf((*MockAdminRepository)(nil).ChangeUserStatus), username)
 }
 
 // DeleteUser mocks base method.
-func (m *MockAdminRepository) DeleteUser(conn *pgx.Conn, username string) error {
+func (m *MockAdminRepository) DeleteUser(username string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUser", conn, username)
+	ret := m.ctrl.Call(m, "DeleteUser", username)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteUser indicates an expected call of DeleteUser.
-func (mr *MockAdminRepositoryMockRecorder) DeleteUser(conn, username interface{}) *gomock.Call {
+func (mr *MockAdminRepositoryMockRecorder) DeleteUser(username interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockAdminRepository)(nil).DeleteUser), conn, username)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockAdminRepository)(nil).DeleteUser), username)
+}
+
+// ManageSpecificCryptoRequests mocks base method.
+func (m *MockAdminRepository) ManageSpecificCryptoRequests(cryptoSymbol string) ([]*models.UnavailableCryptoRequest, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ManageSpecificCryptoRequests", cryptoSymbol)
+	ret0, _ := ret[0].([]*models.UnavailableCryptoRequest)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ManageSpecificCryptoRequests indicates an expected call of ManageSpecificCryptoRequests.
+func (mr *MockAdminRepositoryMockRecorder) ManageSpecificCryptoRequests(cryptoSymbol interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ManageSpecificCryptoRequests", reflect.TypeOf((*MockAdminRepository)(nil).ManageSpecificCryptoRequests), cryptoSymbol)
 }
 
 // ManageUserRequests mocks base method.
-func (m *MockAdminRepository) ManageUserRequests(conn *pgx.Conn) ([]*models.UnavailableCryptoRequest, error) {
+func (m *MockAdminRepository) ManageUserRequests() ([]*models.UnavailableCryptoRequest, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ManageUserRequests", conn)
+	ret := m.ctrl.Call(m, "ManageUserRequests")
 	ret0, _ := ret[0].([]*models.UnavailableCryptoRequest)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ManageUserRequests indicates an expected call of ManageUserRequests.
-func (mr *MockAdminRepositoryMockRecorder) ManageUserRequests(conn interface{}) *gomock.Call {
+func (mr *MockAdminRepositoryMockRecorder) ManageUserRequests() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ManageUserRequests", reflect.TypeOf((*MockAdminRepository)(nil).ManageUserRequests), conn)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ManageUserRequests", reflect.TypeOf((*MockAdminRepository)(nil).ManageUserRequests))
 }
 
 // SaveUnavailableCryptoRequest mocks base method.
-func (m *MockAdminRepository) SaveUnavailableCryptoRequest(conn *pgx.Conn, request *models.UnavailableCryptoRequest) error {
+func (m *MockAdminRepository) SaveUnavailableCryptoRequest(requests []*models.UnavailableCryptoRequest) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveUnavailableCryptoRequest", conn, request)
+	ret := m.ctrl.Call(m, "SaveUnavailableCryptoRequest", requests)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SaveUnavailableCryptoRequest indicates an expected call of SaveUnavailableCryptoRequest.
-func (mr *MockAdminRepositoryMockRecorder) SaveUnavailableCryptoRequest(conn, request interface{}) *gomock.Call {
+func (mr *MockAdminRepositoryMockRecorder) SaveUnavailableCryptoRequest(requests interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveUnavailableCryptoRequest", reflect.TypeOf((*MockAdminRepository)(nil).SaveUnavailableCryptoRequest), conn, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveUnavailableCryptoRequest", reflect.TypeOf((*MockAdminRepository)(nil).SaveUnavailableCryptoRequest), requests)
 }
 
 // ViewUserProfiles mocks base method.
-func (m *MockAdminRepository) ViewUserProfiles(conn *pgx.Conn) ([]*models.User, error) {
+func (m *MockAdminRepository) ViewUserProfiles() ([]*models.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ViewUserProfiles", conn)
+	ret := m.ctrl.Call(m, "ViewUserProfiles")
 	ret0, _ := ret[0].([]*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ViewUserProfiles indicates an expected call of ViewUserProfiles.
-func (mr *MockAdminRepositoryMockRecorder) ViewUserProfiles(conn interface{}) *gomock.Call {
+func (mr *MockAdminRepositoryMockRecorder) ViewUserProfiles() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewUserProfiles", reflect.TypeOf((*MockAdminRepository)(nil).ViewUserProfiles), conn)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewUserProfiles", reflect.TypeOf((*MockAdminRepository)(nil).ViewUserProfiles))
 }

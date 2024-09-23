@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"cryptotracker/internal/services"
 	"fmt"
 	"github.com/fatih/color"
 	"os"
@@ -67,4 +68,26 @@ func DisplayMainMenu() {
 // PrintError prints an error message in red
 func PrintError(message string) {
 	fmt.Println(colorRed(message))
+}
+
+type UI struct {
+	userService         services.UserServices
+	adminService        services.AdminService
+	cryptoService       services.CryptoService
+	notificationService services.NotificationService
+}
+
+// NewUI initializes the UI with the provided services
+func NewUI(
+	userService services.UserServices,
+	adminService services.AdminService,
+	cryptoService services.CryptoService,
+	notificationService services.NotificationService,
+) *UI {
+	return &UI{
+		userService:         userService,
+		adminService:        adminService,
+		cryptoService:       cryptoService,
+		notificationService: notificationService,
+	}
 }
