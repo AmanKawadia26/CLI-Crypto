@@ -1,5 +1,4 @@
-.env
-*REST-API*
-server.log
-server.json
 application.log
+server.json
+server.log
+ .idea/

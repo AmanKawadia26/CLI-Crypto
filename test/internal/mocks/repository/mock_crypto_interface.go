@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	pgx "github.com/jackc/pgx/v4"
 )
 
 // MockCryptoRepository is a mock of CryptoRepository interface.
@@ -36,48 +35,49 @@ func (m *MockCryptoRepository) EXPECT() *MockCryptoRepositoryMockRecorder {
 }
 
 // DisplayTopCryptocurrencies mocks base method.
-func (m *MockCryptoRepository) DisplayTopCryptocurrencies() ([]interface{}, error) {
+func (m *MockCryptoRepository) DisplayTopCryptocurrencies(count int) ([]interface{}, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DisplayTopCryptocurrencies")
+	ret := m.ctrl.Call(m, "DisplayTopCryptocurrencies", count)
 	ret0, _ := ret[0].([]interface{})
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DisplayTopCryptocurrencies indicates an expected call of DisplayTopCryptocurrencies.
-func (mr *MockCryptoRepositoryMockRecorder) DisplayTopCryptocurrencies() *gomock.Call {
+func (mr *MockCryptoRepositoryMockRecorder) DisplayTopCryptocurrencies(count interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisplayTopCryptocurrencies", reflect.TypeOf((*MockCryptoRepository)(nil).DisplayTopCryptocurrencies))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisplayTopCryptocurrencies", reflect.TypeOf((*MockCryptoRepository)(nil).DisplayTopCryptocurrencies), count)
 }
 
 // SearchCryptocurrency mocks base method.
-func (m *MockCryptoRepository) SearchCryptocurrency(conn *pgx.Conn, user *models.User, cryptoSymbol string) (float64, string, string, error) {
+func (m *MockCryptoRepository) SearchCryptocurrency(user *models.User, cryptoSymbol string) (float64, string, string, *models.Cryptocurrency, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchCryptocurrency", conn, user, cryptoSymbol)
+	ret := m.ctrl.Call(m, "SearchCryptocurrency", user, cryptoSymbol)
 	ret0, _ := ret[0].(float64)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(string)
-	ret3, _ := ret[3].(error)
-	return ret0, ret1, ret2, ret3
+	ret3, _ := ret[3].(*models.Cryptocurrency)
+	ret4, _ := ret[4].(error)
+	return ret0, ret1, ret2, ret3, ret4
 }
 
 // SearchCryptocurrency indicates an expected call of SearchCryptocurrency.
-func (mr *MockCryptoRepositoryMockRecorder) SearchCryptocurrency(conn, user, cryptoSymbol interface{}) *gomock.Call {
+func (mr *MockCryptoRepositoryMockRecorder) SearchCryptocurrency(user, cryptoSymbol interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchCryptocurrency", reflect.TypeOf((*MockCryptoRepository)(nil).SearchCryptocurrency), conn, user, cryptoSymbol)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchCryptocurrency", reflect.TypeOf((*MockCryptoRepository)(nil).SearchCryptocurrency), user, cryptoSymbol)
 }
 
 // SetPriceAlert mocks base method.
-func (m *MockCryptoRepository) SetPriceAlert(conn *pgx.Conn, user *models.User, symbol string, targetPrice float64) (float64, error) {
+func (m *MockCryptoRepository) SetPriceAlert(user *models.User, symbol string, targetPrice float64) (float64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetPriceAlert", conn, user, symbol, targetPrice)
+	ret := m.ctrl.Call(m, "SetPriceAlert", user, symbol, targetPrice)
 	ret0, _ := ret[0].(float64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SetPriceAlert indicates an expected call of SetPriceAlert.
-func (mr *MockCryptoRepositoryMockRecorder) SetPriceAlert(conn, user, symbol, targetPrice interface{}) *gomock.Call {
+func (mr *MockCryptoRepositoryMockRecorder) SetPriceAlert(user, symbol, targetPrice interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPriceAlert", reflect.TypeOf((*MockCryptoRepository)(nil).SetPriceAlert), conn, user, symbol, targetPrice)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPriceAlert", reflect.TypeOf((*MockCryptoRepository)(nil).SetPriceAlert), user, symbol, targetPrice)
 }

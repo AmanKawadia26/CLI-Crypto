@@ -14,7 +14,6 @@ var (
 	mu         sync.Mutex
 )
 
-// GetPgConn returns the global PostgreSQL connection, initializing it if necessary.
 func GetPgConn() *pgx.Conn {
 	mu.Lock()
 	defer mu.Unlock()
@@ -31,7 +30,6 @@ func GetPgConn() *pgx.Conn {
 	return PgConn
 }
 
-// ClosePgConn closes the PostgreSQL connection and resets the sync.Once so that the connection can be reinitialized.
 func ClosePgConn() {
 	mu.Lock()
 	defer mu.Unlock()
@@ -43,8 +41,6 @@ func ClosePgConn() {
 		} else {
 			log.Println("PostgreSQL connection closed successfully.")
 		}
-
-		// Reset PgConn and pgConnOnce to allow reinitialization
 		PgConn = nil
 		pgConnOnce = sync.Once{}
 	}

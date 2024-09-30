@@ -3,14 +3,13 @@ package services
 import (
 	"cryptotracker/internal/repositories"
 	"cryptotracker/models"
-	"github.com/jackc/pgx/v4"
 	//"github.com/jackc/pgx/v5"
 )
 
 type CryptoService interface {
-	DisplayTopCryptocurrencies() ([]interface{}, error)
-	SearchCryptocurrency(conn *pgx.Conn, user *models.User, cryptoSymbol string) (float64, string, string, error)
-	SetPriceAlert(conn *pgx.Conn, user *models.User, symbol string, targetPrice float64) (float64, error)
+	DisplayTopCryptocurrencies(count int) ([]interface{}, error)
+	SearchCryptocurrency(user *models.User, cryptoSymbol string) (float64, string, string, *models.Cryptocurrency, error)
+	SetPriceAlert(user *models.User, symbol string, targetPrice float64) (float64, error)
 }
 
 type CryptoServiceImpl struct {
@@ -23,14 +22,14 @@ func NewCryptoService(cryptoRepo repositories.CryptoRepository) *CryptoServiceIm
 	}
 }
 
-func (s *CryptoServiceImpl) DisplayTopCryptocurrencies() ([]interface{}, error) {
-	return s.cryptoRepo.DisplayTopCryptocurrencies()
+func (s *CryptoServiceImpl) DisplayTopCryptocurrencies(count int) ([]interface{}, error) {
+	return s.cryptoRepo.DisplayTopCryptocurrencies(count)
 }
 
-func (s *CryptoServiceImpl) SearchCryptocurrency(conn *pgx.Conn, user *models.User, cryptoSymbol string) (float64, string, string, error) {
-	return s.cryptoRepo.SearchCryptocurrency(conn, user, cryptoSymbol)
+func (s *CryptoServiceImpl) SearchCryptocurrency(user *models.User, cryptoSymbol string) (float64, string, string, *models.Cryptocurrency, error) {
+	return s.cryptoRepo.SearchCryptocurrency(user, cryptoSymbol)
 }
 
-func (s *CryptoServiceImpl) SetPriceAlert(conn *pgx.Conn, user *models.User, symbol string, targetPrice float64) (float64, error) {
-	return s.cryptoRepo.SetPriceAlert(conn, user, symbol, targetPrice)
+func (s *CryptoServiceImpl) SetPriceAlert(user *models.User, symbol string, targetPrice float64) (float64, error) {
+	return s.cryptoRepo.SetPriceAlert(user, symbol, targetPrice)
 }
